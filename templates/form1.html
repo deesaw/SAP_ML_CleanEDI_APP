@@ -1,0 +1,303 @@
+{% extends "base.html" %}
+
+{% block content %}
+<head onload="myFunction()">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+.accordion {
+  background-color: #eee;
+  color: #444;
+  cursor: pointer;
+  padding: 18px;
+  width: 100%;
+  border: none;
+  text-align: left;
+  outline: none;
+  font-size: 15px;
+  transition: 0.4s;
+}
+
+.active, .accordion:hover {
+  background-color: #ccc;
+}
+
+div[id*=panel]{
+  padding: 0 0px;
+  display: none;
+  background-color: black;
+  overflow: hidden;
+  border: 1px solid rgb(153, 153, 153);
+  box-shadow: rgb(153, 153, 153) 5px 5px 5px;
+  margin-bottom: 8px;
+}
+.list {
+	list-style-type:none;
+}
+.list li{
+	border-bottom:1px solid #ddd;
+	line-height:2;
+}
+.list li:last-child{
+	border-bottom:none;
+}
+.list li a{
+	text-decoration:none;
+
+}
+.list li:hover{
+	background-color:#ccc;
+}
+.form-group-left{
+//margin-left: 20px;
+margin-bottom: 0;
+//width:70%;
+float:left;
+position:fixed;
+bottom: 5%;
+}
+.form-group-right{
+//width:25%;
+right: 0%;
+position:fixed;
+margin-bottom: 0;
+bottom: 5%;
+}
+.btn{
+    //margin-top: 4%;
+    //left: 5.5%;
+	width: 80px;
+	height: 30px;
+	}
+.uploadedImg{
+    margin-bottom: 30px;
+}
+.active {
+  background-color: #4CAF50;
+  color: white;
+}
+.form-group-left label{
+color: white;
+height:20px;
+//float:left;
+}
+
+.form-group-left input{
+width: 87px;
+height:20px;
+//display:block;
+}
+
+.container-fluid {
+    padding-right: 0px;
+    padding-left: 0px;
+}
+
+
+</style>
+</head>
+<script type="text/javascript">
+  function myFunction() {
+alert("Model has been Trained :-)");
+}
+</script>
+<form method="POST" enctype="multipart/form-data" title="Enter Data" text="Enter Data"  >
+<div class="forms container-fluid">
+<div class="row">
+
+<div class="form-group-left col-md-8">
+
+<div class="col-md-4">
+<div class="row">
+<div class="col-md-6">
+<label for="LIFNR">Vendor:</label>
+</div>
+<div class="col-md-6">
+<input type="text" name="LIFNR" id="" class="form-control" placeholder="Enter a Vendor" value={{ request.form['LIFNR'] }} >
+</input>
+</div>
+</div>
+
+<div class="row">
+<div class="col-md-6">
+<label for="MAT1">Material 1:</label>
+</div>
+<div class="col-md-6">
+<input type="text" name="MAT1" id="" class="form-control" placeholder="Enter Material 1"
+value={{ request.form['MAT1'] }} >
+</input>
+</div>
+</div>
+
+<div class="row">
+<div class="col-md-6">
+<label for="MAT2">Material 2:</label>
+</div>
+<div class="col-md-6">
+<input type="text" name="MAT2" id="" class="form-control" placeholder="Enter Material 2"
+value={{ request.form['MAT2'] }} >
+</input>
+</div>
+</div>
+</div>
+
+<div class="col-md-4">
+<div class="row">
+
+<div class="col-md-6">
+<label for="MAT3">Material 3:</label>
+</div>
+<div class="col-md-5">
+<input type="text" name="MAT3" id="" class="form-control" placeholder="Enter Material 3"
+value={{ request.form['MAT3'] }} >
+</input>
+</div>
+</div>
+
+<div class="row">
+&nbsp;
+</div>
+
+<div class="row">
+<div class="col-md-6">
+<label for="SP_KUNNR">Customer</label>
+</div>
+<div class="col-md-5">
+<input type="text" name="SP_KUNNR" id="" class="form-control" placeholder="Enter Customer"
+ value={{ request.form['SP_KUNNR'] }} >
+ </input>
+</div>
+</div>
+</div>
+
+<div class="col-md-4">
+<div class="row">
+<div class="col-md-5">
+<label for="MATNR">Material:</label>
+</div>
+<div class="col-md-5">
+<input type="text" name="MATNR" id="dec" class="form-control" style="border: 2px solid green;" disabled/>
+</div>
+</div>
+
+<div class="row">
+<div class="col-md-5">
+<label for="conf">Confidence%:</label>
+</div>
+<div class="col-md-5">
+<input type="text" name="conf" id="conf" class="form-control" style="border: 2px solid green;" disabled/>
+</div>
+</div>
+
+<div class="row">
+
+<div class="col-md-5">
+<button type="submit" class="btn btn-success" formaction="/predict">Predict</button>
+</div>
+
+<div class="col-md-5">
+&nbsp;
+</div>
+
+</div>
+</div>
+</div>
+
+<div class="form-group-right col-md-4 custom-file">
+<div class="row">
+<div class="col-md-7">
+&nbsp;
+</div>
+<div class="col-md-5">
+<a class="btn btn-success" href="{{ url_for('static', filename='Train.tsv') }}">Template</a>
+</div>
+</div
+
+<br>
+<br>
+
+<div class="row">
+		<div class = "col-md-1">
+	&nbsp;
+	</div>
+	<div class = "col-md-6">
+    <input type="file" name="csv_file" id="" class="form-control" size="60"/>
+	</div>
+	<div class = "col-md-5">
+	<button type="submit" class="btn btn-success" formaction="/train">Train	</button>
+	</div>
+</div>
+
+<div class="media" >
+	<div>
+	  {% if flag %}
+      <table style="width:90%">
+	  <tr>
+		<th style="width:100px">Vendor</th>
+		<th style="width:160px">Material 1</th>
+		<th style="width:120px">Material 2</th>
+		<th style="width:120px">Material 3</th>
+		<th style="width:100px">Cutomer</th>
+		<th style="width:100px">Material</th>
+		<!--<th style="width:120px">Decision</th>-->
+	  </tr>
+      {% for prediction in predictions %}
+		<tr>
+			{% for item in prediction %}
+			<td>{{item}}</td>
+			{% endfor %}
+		</tr>
+      {% endfor %}
+      </table>
+	  {% endif %}
+	  {% block content1 %}
+
+      {% endblock %}
+	</div>
+	</div>
+</div>
+</div>
+</div>
+</div>
+</form>
+
+
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script type="text/javascript">
+
+
+var acc = document.getElementsByClassName("accordion");
+var i;
+
+for (i = 0; i < acc.length; i++) {
+  acc[i].addEventListener("click", function() {
+    this.classList.toggle("active");
+    var panel = this.nextElementSibling;
+	var panelID = panel.getAttribute('id');
+	var divCtrl = document.getElementById(panelID);
+    if (divCtrl.style.display === "block") {
+      divCtrl.style.display = "none";
+    } else {
+      divCtrl.style.display = "block";
+    }
+  });
+}
+
+$(".form-control").change(function() {
+  readURL(this);
+});
+
+function readURL(input) {
+  if (input.files && input.files[0]) {
+    var reader = new FileReader();
+
+    reader.onload = function(e) {
+      $('.uploadedImg').attr('src', e.target.result);
+    }
+
+    reader.readAsDataURL(input.files[0]);
+  }
+}
+
+</script>
+
+{% endblock %}

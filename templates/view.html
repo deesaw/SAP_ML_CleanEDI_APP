@@ -1,0 +1,14 @@
+{% extends "form.html" %}
+
+{% block content1 %}
+{% if flag1 %}
+	  <script type="text/javascript">
+		var res1 =  {{ res|tojson }}
+		document.getElementById("dec").value = res1;
+		var res2 =  {{ conf|tojson }}
+		document.getElementById("conf").value = res2;
+	  </script>
+{% endif %}
+
+
+{% endblock %}
